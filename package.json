@@ -32,6 +32,6 @@
     "marked": "^17.0.1",
     "pngjs": "^7.0.0",
     "upng-js": "^2.1.0",
-    "xlsx": "^0.18.5"
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
   }
 }
