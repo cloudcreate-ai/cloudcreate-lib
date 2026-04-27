@@ -1,0 +1,37 @@
+{
+  "name": "@cloudcreate/freetools-core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Core processing utilities shared by the freetools web UI and future CLI.",
+  "sideEffects": false,
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "exports": {
+    ".": "./src/index.js",
+    "./archive": "./src/archive.js",
+    "./css": "./src/css.js",
+    "./image": "./src/image.js",
+    "./markdown": "./src/markdown.js",
+    "./table": "./src/table.js"
+  },
+  "dependencies": {
+    "@jsquash/avif": "^1.1.2-single-thread-only",
+    "@jsquash/jpeg": "^1.6.0",
+    "@jsquash/png": "^3.1.1",
+    "@jsquash/webp": "^1.5.0",
+    "brotli-wasm": "^3.0.1",
+    "csso": "^5.0.5",
+    "fflate": "^0.8.2",
+    "js-beautify": "^1.15.4",
+    "marked": "^17.0.1",
+    "pngjs": "^7.0.0",
+    "upng-js": "^2.1.0",
+    "xlsx": "^0.18.5"
+  }
+}
