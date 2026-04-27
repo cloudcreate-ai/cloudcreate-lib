@@ -1,4 +1,4 @@
-# @cloudcreate/freetools-core
+# @cloudcreate/cloudcreate-core
 
 Core processing utilities shared by the web UI and future CLI entry points.
 
@@ -15,8 +15,8 @@ Current modules:
 Example:
 
 ```js
-import { minifyAggressive } from '@cloudcreate/freetools-core/css';
-import { archive } from '@cloudcreate/freetools-core';
+import { minifyAggressive } from '@cloudcreate/cloudcreate-core/css';
+import { archive } from '@cloudcreate/cloudcreate-core';
 
 const css = minifyAggressive('.demo { color: red; }');
 const zipBytes = await archive.compressZipBytes([
