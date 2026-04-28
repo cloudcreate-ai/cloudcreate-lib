@@ -2,6 +2,8 @@
 
 Core processing utilities shared by the web UI and future CLI entry points.
 
+Live site: https://cloudcreate.ai
+
 This package intentionally avoids Svelte, routing, local storage, and DOM download helpers. Browser-only behavior stays in `src/lib` adapters or route components.
 
 Current modules:

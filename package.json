@@ -1,14 +1,37 @@
 {
   "name": "@cloudcreate/cloudcreate-core",
   "version": "0.1.0",
-  "private": true,
   "type": "module",
-  "description": "Core processing utilities shared by the freetools web UI and future CLI.",
+  "description": "Core processing utilities shared by CloudCreate.ai web tools and future CLI entry points.",
+  "homepage": "https://cloudcreate.ai",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cloudcreate-ai/cloudcreate-lib.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cloudcreate-ai/cloudcreate-lib/issues"
+  },
+  "license": "MIT",
+  "author": "CloudCreate.ai contributors",
+  "keywords": [
+    "cloudcreate",
+    "image",
+    "archive",
+    "css",
+    "markdown",
+    "table",
+    "browser-tools"
+  ],
+  "main": "./src/index.js",
   "sideEffects": false,
   "files": [
     "src",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "engines": {
     "node": ">=18"
   },
@@ -29,7 +52,7 @@
     "csso": "^5.0.5",
     "fflate": "^0.8.2",
     "js-beautify": "^1.15.4",
-    "marked": "^17.0.1",
+    "marked": "^15.0.12",
     "pngjs": "^7.0.0",
     "upng-js": "^2.1.0",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
