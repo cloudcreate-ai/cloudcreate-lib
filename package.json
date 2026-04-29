@@ -38,6 +38,7 @@
   "exports": {
     ".": "./src/index.js",
     "./archive": "./src/archive.js",
+    "./browser": "./src/browser.js",
     "./css": "./src/css.js",
     "./image": "./src/image.js",
     "./markdown": "./src/markdown.js",

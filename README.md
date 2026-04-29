@@ -9,6 +9,7 @@ This package intentionally avoids Svelte, routing, local storage, and DOM downlo
 Current modules:
 
 - `./css`: CSS minify and beautify helpers.
+- `./browser`: CloudCreate.ai tool URL builders shared by CLI/browser entry points.
 - `./archive`: ZIP, GZIP, TAR.GZ, and Brotli helpers with byte-oriented APIs for CLI use and Blob convenience APIs for the browser.
 - `./image`: JPEG, PNG, WebP, and AVIF decode/encode helpers plus image compression/format conversion helpers.
 - `./table`: CSV, TSV, XLSX, and JSON parsing/conversion helpers.
