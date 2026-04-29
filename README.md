@@ -1,4 +1,4 @@
-# @cloudcreate/cloudcreate-core
+# @cloudcreate/core
 
 Core processing utilities shared by the web UI and future CLI entry points.
 
@@ -18,8 +18,8 @@ Current modules:
 Example:
 
 ```js
-import { minifyAggressive } from '@cloudcreate/cloudcreate-core/css';
-import { archive } from '@cloudcreate/cloudcreate-core';
+import { minifyAggressive } from '@cloudcreate/core/css';
+import { archive } from '@cloudcreate/core';
 
 const css = minifyAggressive('.demo { color: red; }');
 const zipBytes = await archive.compressZipBytes([
