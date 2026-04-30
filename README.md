@@ -3,6 +3,7 @@
 Core processing utilities shared by the web UI and future CLI entry points.
 
 Live site: https://cloudcreate.ai
+Package: https://www.npmjs.com/package/@cloudcreate/core
 
 This package intentionally avoids Svelte, routing, local storage, and DOM download helpers. Browser-only behavior stays in `src/lib` adapters or route components.
 
@@ -14,6 +15,28 @@ Current modules:
 - `./image`: JPEG, PNG, WebP, and AVIF decode/encode helpers plus image compression/format conversion helpers.
 - `./table`: CSV, TSV, XLSX, and JSON parsing/conversion helpers.
 - `./markdown`: Markdown to HTML rendering with optional caller-provided sanitization.
+
+## Migration
+
+This package was previously published as `@cloudcreate/cloudcreate-core`.
+
+- New package name: `@cloudcreate/core`
+- Old package is deprecated with migration guidance
+
+Import migration examples:
+
+```js
+// before
+import { minifyAggressive } from '@cloudcreate/cloudcreate-core/css';
+
+// after
+import { minifyAggressive } from '@cloudcreate/core/css';
+```
+
+## Release docs
+
+- Changelog: `CHANGELOG.md`
+- Release checklist: `RELEASE.md`
 
 Example:
 

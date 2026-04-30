@@ -26,7 +26,9 @@
   "sideEffects": false,
   "files": [
     "src",
+    "CHANGELOG.md",
     "README.md",
+    "RELEASE.md",
     "LICENSE"
   ],
   "publishConfig": {
