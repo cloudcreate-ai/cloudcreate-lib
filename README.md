@@ -15,6 +15,7 @@ Current modules:
 - `./image`: JPEG, PNG, WebP, and AVIF decode/encode helpers plus image compression/format conversion helpers.
 - `./table`: CSV, TSV, XLSX, and JSON parsing/conversion helpers.
 - `./markdown`: Markdown to HTML rendering with optional caller-provided sanitization.
+- `./pdf`: PDF document info helpers for page counts, page sizes, and basic metadata.
 
 ## Migration
 
@@ -48,4 +49,13 @@ const css = minifyAggressive('.demo { color: red; }');
 const zipBytes = await archive.compressZipBytes([
   { name: 'style.css', data: new TextEncoder().encode(css) },
 ]);
+```
+
+PDF info example:
+
+```js
+import { getPdfInfo } from '@cloudcreate/core/pdf';
+
+const info = await getPdfInfo(pdfBytes, { maxPages: 3 });
+console.log(info.numPages, info.pages[0]);
 ```

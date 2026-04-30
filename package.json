@@ -44,6 +44,7 @@
     "./css": "./src/css.js",
     "./image": "./src/image.js",
     "./markdown": "./src/markdown.js",
+    "./pdf": "./src/pdf.js",
     "./table": "./src/table.js"
   },
   "dependencies": {
@@ -56,6 +57,7 @@
     "fflate": "^0.8.2",
     "js-beautify": "^1.15.4",
     "marked": "^15.0.12",
+    "pdf-lib": "^1.17.1",
     "pngjs": "^7.0.0",
     "upng-js": "^2.1.0",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
