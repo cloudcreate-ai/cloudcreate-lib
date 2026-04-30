@@ -20,6 +20,7 @@ const TOOL_PATHS = {
   'image:playstore': '/image/playstore',
   'pdf:view': '/pdf',
   'pdf:compress': '/pdf/compress',
+  'pdf:extract': '/pdf/extract',
   workflow: '/workflow',
   'workflow:advanced': '/workflow/advanced',
 };
@@ -160,6 +161,11 @@ export function buildToolQuery(tool, options = {}) {
     const format = asFormat(firstOption(options, ['format', 'f']), IMAGE_FORMATS);
     if (quality != null) p.set('q', String(quality));
     if (format) p.set('f', format);
+  }
+
+  if (id === 'pdf:extract') {
+    const pages = String(firstOption(options, ['pages', 'p']) || '').trim();
+    if (pages) p.set('pages', pages);
   }
 
   return p;

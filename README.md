@@ -59,3 +59,12 @@ import { getPdfInfo } from '@cloudcreate/core/pdf';
 const info = await getPdfInfo(pdfBytes, { maxPages: 3 });
 console.log(info.numPages, info.pages[0]);
 ```
+
+PDF extract example:
+
+```js
+import { extractPdfPages } from '@cloudcreate/core/pdf';
+
+const result = await extractPdfPages(pdfBytes, { pages: '1,3-5' });
+console.log(result.extractedPages, result.extractedPageCount);
+```

@@ -96,3 +96,98 @@ export async function getPdfInfo(buffer, options = {}) {
   });
   return getPdfInfoFromDocument(pdfDoc, options);
 }
+
+function assertPositiveInt(value, label) {
+  if (!Number.isInteger(value) || value < 1) {
+    throw new Error(`${label} must be a positive integer`);
+  }
+}
+
+export function parsePdfPageRangeSpec(spec, totalPages) {
+  assertPositiveInt(totalPages, 'totalPages');
+  const text = String(spec || '').trim();
+  if (!text) {
+    throw new Error('Page range is required');
+  }
+
+  const out = [];
+  const seen = new Set();
+
+  for (const rawPart of text.split(',')) {
+    const part = rawPart.trim();
+    if (!part) continue;
+
+    const rangeMatch = /^(\d+)\s*-\s*(\d+)$/.exec(part);
+    if (rangeMatch) {
+      const start = Number(rangeMatch[1]);
+      const end = Number(rangeMatch[2]);
+      assertPositiveInt(start, 'Range start');
+      assertPositiveInt(end, 'Range end');
+      if (start > end) {
+        throw new Error(`Invalid page range "${part}"`);
+      }
+      if (end > totalPages) {
+        throw new Error(`Page ${end} exceeds document length (${totalPages})`);
+      }
+      for (let pageNumber = start; pageNumber <= end; pageNumber += 1) {
+        if (!seen.has(pageNumber)) {
+          seen.add(pageNumber);
+          out.push(pageNumber);
+        }
+      }
+      continue;
+    }
+
+    if (!/^\d+$/.test(part)) {
+      throw new Error(`Invalid page token "${part}"`);
+    }
+    const pageNumber = Number(part);
+    if (pageNumber > totalPages) {
+      throw new Error(`Page ${pageNumber} exceeds document length (${totalPages})`);
+    }
+    if (!seen.has(pageNumber)) {
+      seen.add(pageNumber);
+      out.push(pageNumber);
+    }
+  }
+
+  if (!out.length) {
+    throw new Error('No pages selected');
+  }
+
+  return out;
+}
+
+export async function extractPdfPages(buffer, options = {}) {
+  const sourceDoc = await PDFDocument.load(toUint8Array(buffer), {
+    updateMetadata: false,
+  });
+  const totalPages = sourceDoc.getPageCount();
+  const pageNumbers = Array.isArray(options.pageNumbers) && options.pageNumbers.length
+    ? options.pageNumbers.map((n) => Number(n))
+    : parsePdfPageRangeSpec(options.pages, totalPages);
+
+  for (const pageNumber of pageNumbers) {
+    assertPositiveInt(pageNumber, 'pageNumber');
+    if (pageNumber > totalPages) {
+      throw new Error(`Page ${pageNumber} exceeds document length (${totalPages})`);
+    }
+  }
+
+  const outDoc = await PDFDocument.create();
+  const copiedPages = await outDoc.copyPages(
+    sourceDoc,
+    pageNumbers.map((pageNumber) => pageNumber - 1),
+  );
+  for (const page of copiedPages) {
+    outDoc.addPage(page);
+  }
+
+  const outBytes = await outDoc.save();
+  return {
+    buffer: outBytes,
+    totalPages,
+    extractedPages: pageNumbers,
+    extractedPageCount: pageNumbers.length,
+  };
+}
