@@ -1,6 +1,6 @@
 {
   "name": "@cloudcreate/core",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "description": "Core processing utilities shared by CloudCreate.ai web tools and future CLI entry points.",
   "homepage": "https://cloudcreate.ai",
