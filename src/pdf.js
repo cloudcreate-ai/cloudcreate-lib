@@ -256,3 +256,42 @@ export async function mergePdfDocuments(inputs) {
     sources: sourceSummaries,
   };
 }
+
+export async function splitPdfPages(buffer, options = {}) {
+  const sourceDoc = await PDFDocument.load(toUint8Array(buffer), {
+    updateMetadata: false,
+  });
+  const totalPages = sourceDoc.getPageCount();
+  const pageNumbers = Array.isArray(options.pageNumbers) && options.pageNumbers.length
+    ? options.pageNumbers.map((n) => Number(n))
+    : options.pages
+      ? parsePdfPageRangeSpec(options.pages, totalPages)
+      : Array.from({ length: totalPages }, (_, pageIdx) => pageIdx + 1);
+
+  const prefix = String(options.prefix || 'page').trim() || 'page';
+  const documents = [];
+
+  for (const pageNumber of pageNumbers) {
+    assertPositiveInt(pageNumber, 'pageNumber');
+    if (pageNumber > totalPages) {
+      throw new Error(`Page ${pageNumber} exceeds document length (${totalPages})`);
+    }
+
+    const outDoc = await PDFDocument.create();
+    const [copiedPage] = await outDoc.copyPages(sourceDoc, [pageNumber - 1]);
+    outDoc.addPage(copiedPage);
+    const outBytes = await outDoc.save();
+    documents.push({
+      pageNumber,
+      name: `${prefix}-p${String(pageNumber).padStart(3, '0')}.pdf`,
+      buffer: outBytes,
+    });
+  }
+
+  return {
+    totalPages,
+    splitPages: pageNumbers,
+    splitCount: documents.length,
+    documents,
+  };
+}

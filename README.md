@@ -80,3 +80,12 @@ const result = await mergePdfDocuments([
 ]);
 console.log(result.sourceCount, result.mergedPageCount);
 ```
+
+PDF split example:
+
+```js
+import { splitPdfPages } from '@cloudcreate/core/pdf';
+
+const result = await splitPdfPages(pdfBytes, { pages: '1,3-4', prefix: 'report' });
+console.log(result.splitCount, result.documents[0].name);
+```
