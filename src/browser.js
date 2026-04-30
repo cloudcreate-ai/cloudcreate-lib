@@ -19,6 +19,7 @@ const TOOL_PATHS = {
   'image:appstore': '/image/appstore',
   'image:playstore': '/image/playstore',
   'pdf:view': '/pdf',
+  'pdf:merge': '/pdf/merge',
   'pdf:compress': '/pdf/compress',
   'pdf:extract': '/pdf/extract',
   workflow: '/workflow',
@@ -166,6 +167,11 @@ export function buildToolQuery(tool, options = {}) {
   if (id === 'pdf:extract') {
     const pages = String(firstOption(options, ['pages', 'p']) || '').trim();
     if (pages) p.set('pages', pages);
+  }
+
+  if (id === 'pdf:merge') {
+    const names = String(firstOption(options, ['names']) || '').trim();
+    if (names) p.set('names', names);
   }
 
   return p;

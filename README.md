@@ -68,3 +68,15 @@ import { extractPdfPages } from '@cloudcreate/core/pdf';
 const result = await extractPdfPages(pdfBytes, { pages: '1,3-5' });
 console.log(result.extractedPages, result.extractedPageCount);
 ```
+
+PDF merge example:
+
+```js
+import { mergePdfDocuments } from '@cloudcreate/core/pdf';
+
+const result = await mergePdfDocuments([
+  { name: 'part-a.pdf', buffer: pdfABytes },
+  { name: 'part-b.pdf', buffer: pdfBBytes },
+]);
+console.log(result.sourceCount, result.mergedPageCount);
+```

@@ -191,3 +191,68 @@ export async function extractPdfPages(buffer, options = {}) {
     extractedPageCount: pageNumbers.length,
   };
 }
+
+export async function mergePdfDocuments(inputs) {
+  const items = Array.isArray(inputs) ? inputs : [];
+  if (!items.length) {
+    throw new Error('At least one PDF input is required');
+  }
+
+  const outDoc = await PDFDocument.create();
+  const sourceSummaries = [];
+  let totalInputPages = 0;
+  let mergedPageCount = 0;
+
+  for (let index = 0; index < items.length; index += 1) {
+    const item = items[index];
+    const buffer = item?.buffer ?? item?.data ?? item;
+    if (!buffer) {
+      throw new Error(`Missing PDF buffer at index ${index}`);
+    }
+
+    const sourceDoc = await PDFDocument.load(toUint8Array(buffer), {
+      updateMetadata: false,
+    });
+    const sourcePageCount = sourceDoc.getPageCount();
+    totalInputPages += sourcePageCount;
+
+    const pageNumbers = Array.isArray(item?.pageNumbers) && item.pageNumbers.length
+      ? item.pageNumbers.map((n) => Number(n))
+      : item?.pages
+        ? parsePdfPageRangeSpec(item.pages, sourcePageCount)
+        : Array.from({ length: sourcePageCount }, (_, pageIdx) => pageIdx + 1);
+
+    for (const pageNumber of pageNumbers) {
+      assertPositiveInt(pageNumber, 'pageNumber');
+      if (pageNumber > sourcePageCount) {
+        throw new Error(`Page ${pageNumber} exceeds document length (${sourcePageCount})`);
+      }
+    }
+
+    const copiedPages = await outDoc.copyPages(
+      sourceDoc,
+      pageNumbers.map((pageNumber) => pageNumber - 1),
+    );
+    for (const page of copiedPages) {
+      outDoc.addPage(page);
+    }
+
+    mergedPageCount += pageNumbers.length;
+    sourceSummaries.push({
+      index,
+      name: item?.name ? String(item.name) : null,
+      totalPages: sourcePageCount,
+      mergedPages: pageNumbers,
+      mergedPageCount: pageNumbers.length,
+    });
+  }
+
+  const outBytes = await outDoc.save();
+  return {
+    buffer: outBytes,
+    sourceCount: items.length,
+    totalInputPages,
+    mergedPageCount,
+    sources: sourceSummaries,
+  };
+}
